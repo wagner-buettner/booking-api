@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: enpal-coding-challenge-db  # using the personalized image
+    container_name: booking-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mypassword123!
+      POSTGRES_DB: coding-challenge
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: booking-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/coding-challenge
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: mypassword123!
+    depends_on:
+      - postgres
+    entrypoint: ["sh", "-c", "sleep 10 && java -jar app.jar"]  # wait for the database before starting the application
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
