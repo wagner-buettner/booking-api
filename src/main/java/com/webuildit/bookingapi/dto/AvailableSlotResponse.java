@@ -1,9 +1,10 @@
 package com.webuildit.bookingapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
-import java.time.ZonedDateTime;
-
 @Builder
-public record AvailableSlotResponse(int availableCount, ZonedDateTime startDate) {
-}
+public record AvailableSlotResponse(
+    @JsonProperty("available_count") int availableCount,
+    @JsonProperty("start_date") String startDate
+) {}
